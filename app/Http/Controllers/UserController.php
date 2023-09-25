@@ -16,7 +16,12 @@ class UserController extends Controller
     public function index()
     {
         $carteira = 1855.29;
-        return view('dashboard', compact('carteira'));
+        $entrada = 529.30 + 250.22;
+        $saida = 285.80;
+
+        $saldo = $entrada - $saida;
+
+        return view('dashboard', compact('saldo','entrada','saida'));
     }
 
     /**
