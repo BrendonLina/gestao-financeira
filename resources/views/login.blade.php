@@ -43,6 +43,7 @@
                 </div>
                 <div class="mb-3">
                     <input type="submit"  class="form-control" id="btn-entrar" value="Entrar">
+                    <a href="/cadastrar">Cadastrar</a>
                 </div>
             </form>
         

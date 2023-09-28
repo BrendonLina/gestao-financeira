@@ -17,6 +17,7 @@ return [
     'title' => 'AdminLTE 3',
     'title_prefix' => '',
     'title_postfix' => '',
+    $url = '/carteira/{id}',
 
     /*
     |--------------------------------------------------------------------------
@@ -325,8 +326,9 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'text' => 'Carteira',
+            // 'url'  => 'carteira',
+            'url'  => $url,
             'icon' => 'fas fa-fw fa-lock',
         ],
         [

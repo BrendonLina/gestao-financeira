@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Carteira;
 
 class UserController extends Controller
 {
@@ -15,11 +16,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $carteira = 1855.29;
-        $entrada = 529.30 + 250.22;
-        $saida = 285.80;
+        // $carteira = 1855.29;
+        // $entrada = 529.30 + 250.22 + 100;
+        // $saida = 285.80;
 
+        // $saldo = $entrada - $saida;
+
+        $entrada = Auth::user()->carteira->entrada;
+        $saida = Auth::user()->carteira->saida;
         $saldo = $entrada - $saida;
+
+        // dd($user);
 
         return view('dashboard', compact('saldo','entrada','saida'));
     }
@@ -114,8 +121,30 @@ class UserController extends Controller
         }
     }
 
-    public function carteira(Request $request, $id)
+    public function carteira($id)
     {
-        $saldoCarteira = User::where('saldo', $id)->get();
+        $user = Auth::user()->id;
+        if(!$user){
+            return redirect()->route('dashboard');
+        }
+        
+        return view('carteira', compact('user'));
+    }
+
+    public function carteiraPost(Request $request, $id)
+    {
+        // $user = User::find($id)->with('carteira')->first();
+        
+        // $user->carteira->entrada = $request->entrada;
+        
+        // $user->update();
+
+        $carteira = Carteira::find($id);
+        
+        $carteira->entrada = $request->entrada + $carteira->entrada;
+
+        $carteira->save();
+
+        return redirect()->back()->with('success','Dinheiro adicionado com sucesso!');
     }
 }

@@ -18,12 +18,15 @@ use App\Http\Controllers\LoginController;
 Route::get('/', [LoginController::class, 'login']);
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/cadastrar', [LoginController::class, 'cadastrar']);
+Route::post('/cadastrar', [LoginController::class, 'cadastrarPost'])->name('cadastrar.post');
 
 Route::post('/dashboard', [UserController::class, 'dashboard']);
 
 Route::middleware(['auth'])->group(function () {
 
     
-    Route::get('/dashboard', [UserController::class, 'index']);
-    Route::get('/carteira', [UserController::class, 'carteira']);
+    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
+    Route::put('/carteira/{id}', [UserController::class, 'carteiraPost'])->name('carteira.add');
+    Route::get('/carteira/{id}', [UserController::class, 'carteira'])->name('carteira');
 });

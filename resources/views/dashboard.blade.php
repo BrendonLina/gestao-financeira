@@ -35,11 +35,11 @@
         labels: ['Entradas', 'Saídas','Saldo'],
         datasets: [{
           label: '$',
-          data: [529.30, 285.80, 1855.29],
+          data: [{{$entrada}},{{$saida}},{{$saldo}}],
           backgroundColor: [
-            'blue',
-            'red',
-            'green'
+            '#0000E6',
+            '#DC3545',
+            '#35CEA1'
         ],
           borderWidth: 1
         }]
