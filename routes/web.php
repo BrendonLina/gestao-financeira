@@ -27,6 +27,10 @@ Route::middleware(['auth'])->group(function () {
 
     
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
+
     Route::put('/carteira/{id}', [UserController::class, 'carteiraPost'])->name('carteira.add');
     Route::get('/carteira/{id}', [UserController::class, 'carteira'])->name('carteira');
+
+    Route::put('/conta/{id}', [UserController::class, 'contaPost'])->name('conta.add');
+    Route::get('/conta/{id}', [UserController::class, 'conta'])->name('conta');
 });

@@ -16,17 +16,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $carteira = 1855.29;
-        // $entrada = 529.30 + 250.22 + 100;
-        // $saida = 285.80;
 
+        // $entrada = Auth::user()->carteiras->entrada;
+        // $saida = Auth::user()->carteiras->saida;
         // $saldo = $entrada - $saida;
 
-        $entrada = Auth::user()->carteira->entrada;
-        $saida = Auth::user()->carteira->saida;
-        $saldo = $entrada - $saida;
+        $entrada = Auth::user()->carteiras->sum('entrada');
+        $saida = Auth::user()->carteiras->sum('saida');
 
-        // dd($user);
+        $saldo = $entrada - $saida;
 
         return view('dashboard', compact('saldo','entrada','saida'));
     }
@@ -128,23 +126,75 @@ class UserController extends Controller
             return redirect()->route('dashboard');
         }
         
-        return view('carteira', compact('user'));
+        // $entradas = Auth::user()->carteiras->entrada;
+        $entradas = Auth::user()->carteiras->where('entrada', '<>', 0.00)->all();
+        $userEntradas = Auth::user()->carteiras->sum('entrada');
+        $userSaidas = Auth::user()->carteiras->sum('saida');
+
+        $userSaldo = $userEntradas - $userSaidas;
+
+        // dd($userEntradas);
+
+        
+        return view('carteira', compact('user','entradas','userSaldo'));
     }
 
     public function carteiraPost(Request $request, $id)
     {
-        // $user = User::find($id)->with('carteira')->first();
-        
-        // $user->carteira->entrada = $request->entrada;
-        
-        // $user->update();
 
-        $carteira = Carteira::find($id);
+        // $carteira = Carteira::find($id);
+        // $carteira->entrada = $request->entrada + $carteira->entrada;
         
-        $carteira->entrada = $request->entrada + $carteira->entrada;
+        // $carteira->save();
 
-        $carteira->save();
+        $user = User::find($id); // Substitua 1 pelo ID do usuário desejado
 
+        $carteira = new Carteira([
+            'entrada' => $request->entrada,
+            'entrada_descricao' => $request->entrada_descricao,
+            'saida' => 0,
+        ]);
+
+        // Associar as carteiras ao usuário
+        $user->carteiras()->save($carteira);
+        
         return redirect()->back()->with('success','Dinheiro adicionado com sucesso!');
+    }
+
+    public function conta($id)
+    {
+        $user = Auth::user()->id;
+        if(!$user){
+            return redirect()->route('dashboard');
+        }
+
+        $saidas = Auth::user()->carteiras->where('saida','<>', 0.00)->all();
+
+        $userSaidas = Auth::user()->carteiras->sum('saida');
+
+        return view('conta', compact('user','userSaidas','saidas'));
+    }
+
+    public function contaPost(Request $request, $id)
+    {
+        
+        // $carteira = Carteira::find($id);
+        
+        // $carteira->saida = $request->saida + $carteira->saida;
+        // $carteira->entrada = $carteira->entrada;
+
+        // $carteira->update();
+
+        $user = User::find($id); 
+
+        $carteira = new Carteira([
+            'entrada' => 0,
+            'saida' => $request->saida,
+            'saida_descricao' => $request->saida_descricao,
+        ]);
+        // Associar as carteiras ao usuário
+        $user->carteiras()->save($carteira);
+
+        return redirect()->back()->with('success','Saida adicionada com sucesso!');
     }
 }

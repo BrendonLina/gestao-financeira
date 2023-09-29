@@ -18,6 +18,7 @@ return [
     'title_prefix' => '',
     'title_postfix' => '',
     $url = '/carteira/{id}',
+    $urlConta = '/conta/{id}',
 
     /*
     |--------------------------------------------------------------------------
@@ -329,6 +330,11 @@ return [
             'text' => 'Carteira',
             // 'url'  => 'carteira',
             'url'  => $url,
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        [
+            'text' => 'Contas',
+            'url'  => $urlConta,
             'icon' => 'fas fa-fw fa-lock',
         ],
         [

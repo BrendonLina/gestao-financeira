@@ -14,6 +14,8 @@ class Carteira extends Model
     protected $fillable = [
         'entrada',
         'saida',
+        'saida_descricao',
+        'entrada_descricao',
     ];
 
     public function user()

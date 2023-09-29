@@ -4,8 +4,8 @@
         margin-left: 200px;
     }
 
-    #entrada{
-        color: green;
+    #saida{
+        color: red;
     }
 </style>
 @extends('adminlte::page')
@@ -18,40 +18,41 @@
 @stop
 
 @section('content')
-<div class="info-box bg-success">
+<div class="info-box bg-danger">
     <span class="info-box-icon"><i class="far fa-money-bill-alt"></i></span>
     <div class="info-box-content">
-      <span class="info-box-text">Saldo</span>
+      <span class="info-box-text">Saida</span>
       {{-- <span class="info-box-number">{{$user->carteira->entrada - $user->carteira->saida}}</span> --}}
-      {{-- <span class="info-box-number">{{Auth::user()->carteiras->entrada - Auth::user()->carteiras->saida}}</span> --}}
-      <span class="info-box-number">{{$userSaldo}}</span>
+      <span class="info-box-number">-{{$userSaidas}}</span>
     </div>
   </div>
   {{-- <form action="/carteiraPost/{{Auth::user()->id}}" method="post"> --}}
-  <form action="/carteira/{{Auth::user()->id}}" method="POST">
+  <form action="/conta/{{Auth::user()->id}}" method="POST">
     @csrf
     @method('PUT')
-        <x-adminlte-input name="entrada" label="Adicionar Dinheiro/Entrada" placeholder="Valor" type="number"
+        <x-adminlte-input name="saida" label="Adicionar Saida" placeholder="Valor" type="number"
         igroup-size="sm" min=1>
     </x-adminlte-input>
 
-    <x-adminlte-input name="entrada_descricao" label="Descrição" placeholder="Descrição" type="text"
+    <x-adminlte-input name="saida_descricao" label="Descrição" placeholder="Descrição" type="text"
         igroup-size="sm" min=1 max=20>
     </x-adminlte-input>
 
         <x-adminlte-button label="Enviar" theme="primary" icon="fas fa-paper-plane" type="submit"/>
-
+    
   </form>
-    @foreach($entradas as $entrada)
-    <x-adminlte-card title="Entrada {{substr($entrada->created_at,0,10)}}" theme="dark" icon="fas fa-lg fa-money-bill-alt">
-        <p>Entrada de R$ <b id="entrada">{{$entrada->entrada}}</b></p>
-        @if($entrada->entrada_descricao == null)
+
+  @foreach($saidas as $saida)
+    <x-adminlte-card title="Saida {{substr($saida->created_at,0,10)}}" theme="dark" icon="fas fa-lg fa-money-bill-alt"> 
+        <p>Saida de R$ <b id="saida">{{$saida->saida}}</b></p>
+        @if($saida->saida_descricao == null)
         <p>Sem descrição</p>
-        @else
-        <p>Descricao: <b>{{$entrada->entrada_descricao}}</b></p>
-        @endif
+        @else       
+        <p>Descrição: <b>{{$saida->saida_descricao}}</b></p>
+        @endif       
     </x-adminlte-card>
-    @endforeach
+    @endforeach   
+  
 @stop
 
 @section('css')
