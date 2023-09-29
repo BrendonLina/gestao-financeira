@@ -22,11 +22,10 @@
     <span class="info-box-icon"><i class="far fa-money-bill-alt"></i></span>
     <div class="info-box-content">
       <span class="info-box-text">Saida</span>
-      {{-- <span class="info-box-number">{{$user->carteira->entrada - $user->carteira->saida}}</span> --}}
       <span class="info-box-number">-{{$userSaidas}}</span>
     </div>
   </div>
-  {{-- <form action="/carteiraPost/{{Auth::user()->id}}" method="post"> --}}
+  
   <form action="/conta/{{Auth::user()->id}}" method="POST">
     @csrf
     @method('PUT')

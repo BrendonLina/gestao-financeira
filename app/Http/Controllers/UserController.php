@@ -17,10 +17,6 @@ class UserController extends Controller
     public function index()
     {
 
-        // $entrada = Auth::user()->carteiras->entrada;
-        // $saida = Auth::user()->carteiras->saida;
-        // $saldo = $entrada - $saida;
-
         $entrada = Auth::user()->carteiras->sum('entrada');
         $saida = Auth::user()->carteiras->sum('saida');
 
@@ -126,26 +122,17 @@ class UserController extends Controller
             return redirect()->route('dashboard');
         }
         
-        // $entradas = Auth::user()->carteiras->entrada;
         $entradas = Auth::user()->carteiras->where('entrada', '<>', 0.00)->all();
         $userEntradas = Auth::user()->carteiras->sum('entrada');
         $userSaidas = Auth::user()->carteiras->sum('saida');
 
         $userSaldo = $userEntradas - $userSaidas;
-
-        // dd($userEntradas);
-
         
         return view('carteira', compact('user','entradas','userSaldo'));
     }
 
     public function carteiraPost(Request $request, $id)
     {
-
-        // $carteira = Carteira::find($id);
-        // $carteira->entrada = $request->entrada + $carteira->entrada;
-        
-        // $carteira->save();
 
         $user = User::find($id); // Substitua 1 pelo ID do usuário desejado
 
@@ -178,13 +165,6 @@ class UserController extends Controller
     public function contaPost(Request $request, $id)
     {
         
-        // $carteira = Carteira::find($id);
-        
-        // $carteira->saida = $request->saida + $carteira->saida;
-        // $carteira->entrada = $carteira->entrada;
-
-        // $carteira->update();
-
         $user = User::find($id); 
 
         $carteira = new Carteira([
