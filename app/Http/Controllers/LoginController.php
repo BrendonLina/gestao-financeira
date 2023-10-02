@@ -11,6 +11,10 @@ class LoginController extends Controller
 {
     public function login()
     {
+        if(Auth::check()){
+            return redirect('dashboard');
+        }
+
         return view('login');
     }
 
@@ -23,6 +27,10 @@ class LoginController extends Controller
 
     public function cadastrar()
     {
+        if(Auth::check()){
+            return redirect('dashboard');
+        }
+        
         return view('cadastrar');
     }
 

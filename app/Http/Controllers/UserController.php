@@ -164,7 +164,7 @@ class UserController extends Controller
 
     public function contaPost(Request $request, $id)
     {
-        
+
         $user = User::find($id); 
 
         $carteira = new Carteira([
